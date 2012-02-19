@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:jstorage.js">
+   </FileRef>
+   <FileRef
+      location = "group:../icon.png">
+   </FileRef>
+   <FileRef
+      location = "group:../jquery.json-2.3.min.js">
+   </FileRef>
+   <FileRef
+      location = "self:Save-State.xcodeproj">
+   </FileRef>
+</Workspace>

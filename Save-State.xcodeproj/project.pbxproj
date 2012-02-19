@@ -6,10 +6,23 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXFileReference section */
+		AA60409F14F060BA00BC54A8 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		AA6040A014F061DB00BC54A8 /* popup.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = popup.html; sourceTree = "<group>"; };
+		AA6040A114F0718500BC54A8 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = "Save-State.xcodeproj/../icon.png"; sourceTree = "<group>"; };
+		AA6040A214F0718500BC54A8 /* jquery.json-2.3.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = "jquery.json-2.3.min.js"; path = "Save-State.xcodeproj/../jquery.json-2.3.min.js"; sourceTree = "<group>"; };
+		AA6040A414F07BA800BC54A8 /* jstorage.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jstorage.min.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		AA60409614F0606A00BC54A8 = {
 			isa = PBXGroup;
 			children = (
+				AA6040A014F061DB00BC54A8 /* popup.html */,
+				AA6040A414F07BA800BC54A8 /* jstorage.min.js */,
+				AA60409F14F060BA00BC54A8 /* manifest.json */,
+				AA6040A114F0718500BC54A8 /* icon.png */,
+				AA6040A214F0718500BC54A8 /* jquery.json-2.3.min.js */,
 			);
 			sourceTree = "<group>";
 		};

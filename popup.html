@@ -1,0 +1,168 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="jquery.json-2.3.min.js"></script>
+<script src="jstorage.min.js"></script>
+
+<style>
+    body {
+        min-width:357px;
+        overflow-x:hidden;
+        font-family: Helvetica, Arial, serif;
+    }
+    
+    /*div { position: relative; float: left; }*/
+    label.save-state { color: #ccc; position: relative; margin: 6px auto;}
+    
+    input {
+        padding:0;
+        margin:0;
+        border:0;
+        width: 100%;
+        height: 24px;
+        margin-top: 6px;
+        border-bottom: solid #adadad 1px;
+        background-color: white;
+        text-align: center;
+        float: left;
+        font-family: Helvetica, Arial, serif;
+        font-size: 16px;
+        color: #000;
+        vertical-align: middle;
+        text-decoration: none;
+        outline:none;
+    }
+    
+    input.blur {
+        color: #999;
+    }
+    
+    .hidden {
+        position: absolute;
+        left: -1000px;
+    }
+</style>
+
+<script>
+    function insert_value(){
+        var row = document.createElement("tr"),
+        key = document.getElementById('save-state').value;
+        if(!key){
+            alert("Need to enter a title... Moron.");
+            document.getElementById('save-state').focus();
+            return;
+        }
+        var val = new Object();
+        chrome.tabs.query(val, function (val){ $.jStorage.set(key, JSON.stringify(val))});
+        document.getElementById('save-state').value = "";
+        reDraw();
+    }
+    
+    function get_value(){
+        var save = $.jStorage.get(document.getElementById("save").title);
+        var save = JSON.parse(save);
+        for (var i = 0, save; save[i]; i++) {
+            chrome.tabs.create({ url: save[i].url });
+        }
+    }
+    
+    function reDraw(){
+        var row, del, index;
+        var rows = document.getElementsByTagName("tr");
+        for(var i=rows.length-1; i>=0; i--){
+            if(rows[i].className == "save-row"){
+                rows[i].parentNode.removeChild(rows[i]);
+            }
+        }
+        
+        index = $.jStorage.index();
+        for(var i=0; i<index.length;i++){
+            row = document.createElement("tr");
+            row.className = "save-row";
+            var t = document.createElement("td");
+            var link = document.createElement("a");
+            row.appendChild(t);
+            t.appendChild(link);
+            link.innerHTML = index[i];
+            link.href = "javascript:get_value()";
+            link.title = index[i];
+            link.id = "save";
+            del = document.createElement("a");
+            del.href = "javascript:void(0)";
+            del.innerHTML = "DEL";
+            (function(i){
+             del.onclick = function(){
+             $.jStorage.deleteKey(i);
+             reDraw();
+             };
+             })(index[i])
+            t = document.createElement("td");
+            t.appendChild(del)
+            row.appendChild(t);
+            document.getElementById("mySaves").appendChild(row);
+            
+        }
+    }
+    /**
+     * @author Remy Sharp
+     * @url http://remysharp.com/2007/01/25/jquery-tutorial-text-box-hints/
+     */
+    
+    (function ($) {
+     
+     $.fn.hint = function (blurClass) {
+     if (!blurClass) { 
+     blurClass = 'blur';
+     }
+     
+     return this.each(function () {
+                      // get jQuery version of 'this'
+                      var $input = $(this),
+                      
+                      // capture the rest of the variable to allow for reuse
+                      title = $input.attr('title'),
+                      $form = $(this.form),
+                      $win = $(window);
+                      
+                      function remove() {
+                      if ($input.val() === title && $input.hasClass(blurClass)) {
+                      $input.val('').removeClass(blurClass);
+                      }
+                      }
+                      
+                      // only apply logic if the element has the attribute
+                      if (title) { 
+                      // on blur, set value to title attr if text is blank
+                      $input.blur(function () {
+                                  if (this.value === '') {
+                                  $input.val(title).addClass(blurClass);
+                                  }
+                                  }).focus(remove).blur(); // now change all inputs to title
+                      
+                      // clear the pre-defined text when form is submitted
+                      $form.submit(remove);
+                      $win.unload(remove); // handles Firefox's autocomplete
+                      }
+                      });
+     };
+     
+     })(jQuery);
+    
+    $(function(){ 
+      // find all the input elements with title attributes
+      $('input[title!=""]').hint();
+    });
+</script>
+
+<body>
+    <a class="hidden" href="javascript:void()">hidden</a>
+    <input type="text" name="save-state" value="" id="save-state" title="New Save State...">
+    <table cellspacing="0" cellpadding="0" style="width: 100%">
+        <tbody id="mySaves"></tbody>
+        
+        <tfoot>
+            <tr>
+                <td><a href="javascript:insert_value()">ADD</a></td>
+            </tr>
+        </tfoot>
+	</table>
+	<script>reDraw()</script>
+</body>
