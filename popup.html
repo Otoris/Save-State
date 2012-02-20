@@ -56,11 +56,15 @@
         reDraw();
     }
     
-    function get_value(){
-        var save = $.jStorage.get(document.getElementById("save").title);
-        var save = JSON.parse(save);
-        for (var i = 0, save; save[i]; i++) {
-            chrome.tabs.create({ url: save[i].url });
+    function get_value(save){
+        console.log( save );
+        var saveState = $.jStorage.get(save);
+        //console.log( saveState[1] );
+        var saveState = JSON.parse(saveState);
+        //console.log( saveState[1] );
+        for (var i = 0, saveState; saveState[i]; i++) {
+            chrome.tabs.create({ url: saveState[i].url });
+            //console.log( saveState[i] );
         }
     }
     
@@ -82,9 +86,15 @@
             row.appendChild(t);
             t.appendChild(link);
             link.innerHTML = index[i];
-            link.href = "javascript:get_value()";
             link.title = index[i];
-            link.id = "save";
+            link.href = "javascript:get_value("+ link.title +")";
+            link.id = index[i];
+            (function(i){
+             link.onclick = function(){
+             get_value(i)
+             //reDraw();
+             };
+             })(index[i])
             del = document.createElement("a");
             del.href = "javascript:void(0)";
             del.innerHTML = "DEL";
