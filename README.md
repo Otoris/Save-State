@@ -1,9 +1,9 @@
 Save State (A Chrome Extension)
 =================
 
-This extension does two task: It saves your tabs for later and tells me all your secrets…
+**This extension does two task:** *It saves your tabs for later* AND *tells me all your secrets…*
 
-ermmm… Actually is only does the one task. (Probably not the later task.)
+Ermmm… Actually it only does the one task. (Probably not the later task.)
 
 Save State is my first attempt at making a Google Chrome Extension so most of the code ISN'T pretty, but I'm happy to say the plugin does its job! As a bonus, it stays out of the users way.
 
