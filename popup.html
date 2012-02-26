@@ -4,7 +4,7 @@
 
 <style>
     body {
-        min-width:357px;
+        width:357px;
         overflow-x:hidden;
         font-family: Helvetica, Arial, serif;
     }
@@ -19,7 +19,7 @@
         width: 100%;
         height: 24px;
         margin-top: 6px;
-        border-bottom: solid #adadad 1px;
+        border-bottom: solid #adadad 2px;
         background-color: white;
         text-align: center;
         float: left;
@@ -39,9 +39,65 @@
         position: absolute;
         left: -1000px;
     }
+    #one-column-emphasis{
+        font-family:"Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+        font-size:16px;
+        color: #000;
+        max-width:100%;
+        text-align:left;
+        border-collapse:collapse;
+        
+        /*margin:20px;*/
+    }
+    
+    a, a:visited, a:active {
+        color: #000;
+    }
+    
+    #one-column-emphasis th{
+        font-size:14px;
+        font-weight:normal;
+        color:#039;
+        padding:12px 15px;
+    }
+    #one-column-emphasis td{
+        color:#669;
+        border-bottom:1px solid #e8edff;
+
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        -webkit-text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 288px;
+        
+        padding:10px 15px;
+    }
+    
+    #one-column-emphasis td.del {
+        border-left:1px solid #e8edff;
+    }
+    
+    .oce-first{
+        background:#d0dafd;
+        border-right:10px solid transparent;
+        border-left:10px solid transparent;
+    }
+    #one-column-emphasis tr:hover td{
+        color:#339;
+        background:#eff2ff;
+    }
+    .delete_button {
+        background-image: url('remove.png');
+        background-repeat: none;
+        width: 12px;
+        height: 12px;
+        float: right;
+    }
+
 </style>
 
-<script>
+<script type="text/javascript">
     function insert_value(){
         var row = document.createElement("tr"),
         key = document.getElementById('save-state').value;
@@ -52,8 +108,12 @@
         }
         var val = new Object();
         chrome.tabs.query(val, function (val){ $.jStorage.set(key, JSON.stringify(val))});
+        document.getElementById('save-state').key = "";
         document.getElementById('save-state').value = "";
         reDraw();
+        $('a.hidden').focus();
+        window.close();
+        
     }
     
     function get_value(save){
@@ -84,20 +144,24 @@
             var t = document.createElement("td");
             var link = document.createElement("a");
             row.appendChild(t);
+            //t.style.width = '90%';
             t.appendChild(link);
             link.innerHTML = index[i];
-            link.title = index[i];
-            link.href = "javascript:get_value("+ link.title +")";
             link.id = index[i];
             (function(i){
              link.onclick = function(){
-             get_value(i)
-             //reDraw();
+             get_value(i);
+             window.close();
+             };
+             t.onclick = function(){
+             get_value(i);
+             window.close();
              };
              })(index[i])
             del = document.createElement("a");
             del.href = "javascript:void(0)";
-            del.innerHTML = "DEL";
+            //del.innerHTML = "DEL";
+            del.className = "delete_button";
             (function(i){
              del.onclick = function(){
              $.jStorage.deleteKey(i);
@@ -105,7 +169,9 @@
              };
              })(index[i])
             t = document.createElement("td");
-            t.appendChild(del)
+            t.style.width = '10%';
+            t.className = "del";
+            t.appendChild(del);
             row.appendChild(t);
             document.getElementById("mySaves").appendChild(row);
             
@@ -164,15 +230,11 @@
 
 <body>
     <a class="hidden" href="javascript:void()">hidden</a>
-    <input type="text" name="save-state" value="" id="save-state" title="New Save State...">
-    <table cellspacing="0" cellpadding="0" style="width: 100%">
+    <form  method="get" action="javascript:insert_value();">
+        <input type="text" name="save-state" value="" id="save-state" title="New Save State...">
+    </form>
+    <table cellspacing="0" cellpadding="0" id="one-column-emphasis" style="width: 100%">
         <tbody id="mySaves"></tbody>
-        
-        <tfoot>
-            <tr>
-                <td><a href="javascript:insert_value()">ADD</a></td>
-            </tr>
-        </tfoot>
 	</table>
-	<script>reDraw()</script>
+        <script type="text/javascript">reDraw();</script>
 </body>
