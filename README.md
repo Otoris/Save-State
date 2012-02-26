@@ -1,11 +1,19 @@
 Save State (A Chrome Extension)
-=================
+===============================
 
 **This extension does two task:** *It saves your tabs for later* AND *tells me all your secrets…*
 
 Ermmm… Actually it only does the one task. (Probably not the later task.)
 
 Save State is my first attempt at making a Google Chrome Extension so most of the code ISN'T pretty, but I'm happy to say the plugin does its job! As a bonus, it stays out of the users way.
+
+
+Install
+-----------
+
+If you're here for the extension only, go here: <https://github.com/Otoris/Save-State/downloads>
+
+Download the .crx and open it, your Chrome Browser will take care of the rest.
 
 
 De-bugger
